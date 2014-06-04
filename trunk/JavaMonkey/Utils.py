@@ -11,7 +11,8 @@ def list_jarfile():
     jarfiles = os.listdir(jarfolder)
     jarfile_fullpaths = []
     for jarfile in jarfiles:
-        jarfile_fullpaths.append(os.path.join(jarfolder, jarfile))
+        if os.path.splitext(jarfile)[1]==".jar":
+            jarfile_fullpaths.append(os.path.join(jarfolder, jarfile))
     return jarfile_fullpaths
 
 def startJVM(jarfiles = list_jarfile()):
