@@ -8,23 +8,27 @@ import Utils,os,jpype,time
 class JavaMonkey:
     WAIT_FOR_CONNECTION_TIMEOUT = 5000
     def __init__(self, device_id = None):
-#         Utils.startJVM("jarfile")
-        adblocation = os.path.join(os.environ["ANDROID_HOME"],"platform-tools","adb")
-        print "ADB Locaton: %s" % adblocation
-        options = jpype.JClass("java.util.TreeMap")()
-        options.put("backend","adb")
-        options.put("adbLocation", adblocation)
-        self.package = jpype.JPackage("com.android.chimpchat")
-        self.mChimpchat = self.package.ChimpChat.getInstance(options)
-        if device_id:
-            self.device = self.mChimpchat.waitForConnection(self.WAIT_FOR_CONNECTION_TIMEOUT, jpype.JString(device_id))
-        else:
-            self.device = self.mChimpchat.waitForConnection(self.WAIT_FOR_CONNECTION_TIMEOUT, jpype.JString(".*"))
-        print "connect is done"
-        self.TouchPressType = self.package.core.TouchPressType
-        self.PhysicalButton = self.package.core.PhysicalButton
-        self.By = self.package.core.By
-        
+        try:
+            adblocation = os.path.join(os.environ["ANDROID_HOME"],"platform-tools","adb")
+            print "ADB Locaton: %s" % adblocation
+            options = jpype.JClass("java.util.TreeMap")()
+            options.put("backend","adb")
+            options.put("adbLocation", adblocation)
+            self.package = jpype.JPackage("com.android.chimpchat")
+            print dir(self.package.ChimpChat)
+            self.mChimpchat = self.package.ChimpChat.getInstance(options)
+            if device_id:
+                self.device = self.mChimpchat.waitForConnection(self.WAIT_FOR_CONNECTION_TIMEOUT, jpype.JString(device_id))
+            else:
+                self.device = self.mChimpchat.waitForConnection(self.WAIT_FOR_CONNECTION_TIMEOUT, jpype.JString(".*"))
+                print "connect is done"
+                self.TouchPressType = self.package.core.TouchPressType
+                self.PhysicalButton = self.package.core.PhysicalButton
+                self.By = self.package.core.By
+        except Exception,e:
+            import traceback
+            traceback.print_exc()   
+            
     def get_device(self):
         return self.device
     
@@ -152,7 +156,11 @@ class JavaMonkey:
     
     def get_screenshot_as_file(self, filename = "default-java_monkey_screenshot.png"):
         image = self.device.takeSnapshot()
-        image.writeToFile(filename, None)
+        print self.device
+        print 'RGBA'
+        b = image.convertToBytes('PNG')
+        print len(b)
+        image.writeToFile(filename, 'PNG')
         
     def get_screenshot_without_items(self, filename, items = None, coordinates = None):
         self.get_screenshot_as_file(filename)
