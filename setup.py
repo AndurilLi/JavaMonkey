@@ -13,8 +13,5 @@ setup(
         author_email = "pli@mstr.apps-poc.com,yuliu@mstr.apps-poc.com",
         packages = ['JavaMonkey'],
         zip_safe = False,
-        include_package_data = True,
-        install_requires = [
-                                'JPype>=0.5.4.2'
-                            ]
+        include_package_data = True
       )
