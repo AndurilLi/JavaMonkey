@@ -174,7 +174,7 @@ class JavaMonkey:
         '''
         draw rectangles to images
         '''
-        import Image, ImageDraw
+        from PIL import Image, ImageDraw
         im = Image.open(filename)
         #solve the device reslution problem
         #simulator's reslution width is 320
