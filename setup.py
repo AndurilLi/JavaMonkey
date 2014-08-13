@@ -11,7 +11,8 @@ setup(
         description = "A JavaMonkey package based on ChimpChat",
         author = "Anduril, Yue.L",
         author_email = "pli@mstr.apps-poc.com,yuliu@mstr.apps-poc.com",
-        packages = ['JavaMonkey','Pillow'],
+        packages = ['JavaMonkey'],
+        install_requires = ['Pillow'],
         zip_safe = False,
         include_package_data = True
       )
